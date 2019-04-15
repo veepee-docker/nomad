@@ -1,0 +1,79 @@
+---
+# https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
+
+.template: &build
+  stage: build
+  image: docker:latest
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - image
+  services:
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay
+
+.template: &deploy
+  stage: deploy
+  image: docker:latest
+  before_script:
+    - docker login -u "$REGISTRY_USERNAME" -p "$REGISTRY_PASSWORD"
+    - docker load -i image/v0.8.7.tar
+    - docker load -i image/v0.9.0.tar
+  only:
+    - master
+  services:
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay
+
+stages:
+  - test
+  - build
+  - deploy
+
+# test
+dockerlint:
+  stage: test
+  image: vptech/linter:docker
+  script:
+    - find . -type f -name "Dockerfile" | xargs -I{} dockerlint {}
+
+# build
+v0.8.7:
+  <<: *build
+  script:
+    - docker build --rm --tag nomad:0.8.7 0.8.7
+    - mkdir image
+    - docker save nomad:0.8.7 > image/v0.8.7.tar
+
+v0.9.0:
+  <<: *build
+  script:
+    - docker build --rm --tag nomad:0.9.0 0.9.0
+    - mkdir image
+    - docker save nomad:0.9.0 > image/v0.9.0.tar
+
+# deploy
+# https://hub.docker.com/u/vpgrp/
+vpgrp:
+  <<: *deploy
+  script:
+    - docker tag nomad:0.8.7 vpgrp/nomad:0.8.7
+    - docker tag nomad:0.9.0 vpgrp/nomad:0.9.0
+    - docker tag nomad:0.9.0 vpgrp/nomad:latest
+    - docker push vpgrp/nomad:0.8.7
+    - docker push vpgrp/nomad:0.9.0
+    - docker push vpgrp/nomad:latest
+
+# https://hub.docker.com/u/vptech/
+vptech:
+  <<: *deploy
+  script:
+    - docker tag nomad:0.8.7 vptech/nomad:0.8.7
+    - docker tag nomad:0.9.0 vptech/nomad:0.9.0
+    - docker tag nomad:0.9.0 vptech/nomad:latest
+    - docker push vptech/nomad:0.8.7
+    - docker push vptech/nomad:0.9.0
+    - docker push vptech/nomad:latest
+# EOF

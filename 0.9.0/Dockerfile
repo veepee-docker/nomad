@@ -14,7 +14,7 @@
 
 FROM vptech/debian:stretch
 
-ENV NOMAD_VERSION="0.9.0" 
+ENV NOMAD_VERSION="0.9.0"
 
 ENV NOMAD_RELEASE="https://releases.hashicorp.com/nomad/$NOMAD_VERSION/nomad_${NOMAD_VERSION}_linux_amd64.zip" 
 

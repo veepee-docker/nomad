@@ -99,7 +99,7 @@ v0.9.1:test:
 # deploy
 # https://hub.docker.com/u/vpgrp/
 vpgrp:
-  <<: *deploy
+  extends: .deploy
   script:
     - docker tag nomad:0.8.7 vpgrp/nomad:0.8.7
     - docker tag nomad:0.9.0 vpgrp/nomad:0.9.0
@@ -112,7 +112,7 @@ vpgrp:
 
 # https://hub.docker.com/u/vptech/
 vptech:
-  <<: *deploy
+  extends: .deploy
   script:
     - docker tag nomad:0.8.7 vptech/nomad:0.8.7
     - docker tag nomad:0.9.0 vptech/nomad:0.9.0

@@ -84,17 +84,17 @@ v0.9.1:build:
 v0.8.7:test:
   extends: .test
   script:
-    - docker run nomad:0.8.7 "nomad -version"
+    - docker run nomad:0.8.7 nomad -version
 
 v0.9.0:test:
   extends: .test
   script:
-    - docker run nomad:0.9.0 "nomad -version"
+    - docker run nomad:0.9.0 nomad -version
 
 v0.9.1:test:
   extends: .test
   script:
-    - docker run nomad:0.9.1 "nomad -version"
+    - docker run nomad:0.9.1 nomad -version
 
 # deploy
 # https://hub.docker.com/u/vpgrp/

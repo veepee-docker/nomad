@@ -28,7 +28,8 @@ Docker images of Nomad.
 Supported tags.
 
 - 0.8.7
-- 0.9.0, latest
+- 0.9.0
+- 0.9.1, latest
 
 ## Usage
 

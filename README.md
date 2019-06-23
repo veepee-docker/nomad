@@ -29,7 +29,9 @@ Supported tags.
 
 - 0.8.7
 - 0.9.0
-- 0.9.1, latest
+- 0.9.1
+- 0.9.2
+- 0.9.3, latest
 
 ## Usage
 

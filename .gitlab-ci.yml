@@ -24,6 +24,7 @@
     - docker load -i image/v0.9.1.tar
     - docker load -i image/v0.9.2.tar
     - docker load -i image/v0.9.3.tar
+    - docker load -i image/v0.9.4.tar
   only:
     - master
   services:
@@ -42,6 +43,7 @@
     - docker load -i image/v0.9.1.tar
     - docker load -i image/v0.9.2.tar
     - docker load -i image/v0.9.3.tar
+    - docker load -i image/v0.9.4.tar
   only:
     - master
   services:
@@ -98,6 +100,13 @@ v0.9.3:build:
     - mkdir image
     - docker save nomad:0.9.3 > image/v0.9.3.tar
 
+v0.9.4:build:
+  extends: .build
+  script:
+    - docker build --rm --tag nomad:0.9.4 0.9.4
+    - mkdir image
+    - docker save nomad:0.9.4 > image/v0.9.4.tar
+
 # test
 v0.8.7:test:
   extends: .test
@@ -124,6 +133,11 @@ v0.9.3:test:
   script:
     - docker run nomad:0.9.3 nomad -version
 
+v0.9.4:test:
+  extends: .test
+  script:
+    - docker run nomad:0.9.4 nomad -version
+
 # deploy
 # https://hub.docker.com/u/vpgrp/
 vpgrp:
@@ -134,12 +148,14 @@ vpgrp:
     - docker tag nomad:0.9.1 vpgrp/nomad:0.9.1
     - docker tag nomad:0.9.2 vpgrp/nomad:0.9.2
     - docker tag nomad:0.9.3 vpgrp/nomad:0.9.3
-    - docker tag nomad:0.9.3 vpgrp/nomad:latest
+    - docker tag nomad:0.9.4 vpgrp/nomad:0.9.4
+    - docker tag nomad:0.9.4 vpgrp/nomad:latest
     - docker push vpgrp/nomad:0.8.7
     - docker push vpgrp/nomad:0.9.0
     - docker push vpgrp/nomad:0.9.1
     - docker push vpgrp/nomad:0.9.2
     - docker push vpgrp/nomad:0.9.3
+    - docker push vpgrp/nomad:0.9.4
     - docker push vpgrp/nomad:latest
 
 # https://hub.docker.com/u/vptech/
@@ -151,11 +167,13 @@ vptech:
     - docker tag nomad:0.9.1 vptech/nomad:0.9.1
     - docker tag nomad:0.9.2 vptech/nomad:0.9.2
     - docker tag nomad:0.9.3 vptech/nomad:0.9.3
-    - docker tag nomad:0.9.3 vptech/nomad:latest
+    - docker tag nomad:0.9.4 vptech/nomad:0.9.4
+    - docker tag nomad:0.9.4 vptech/nomad:latest
     - docker push vptech/nomad:0.8.7
     - docker push vptech/nomad:0.9.0
     - docker push vptech/nomad:0.9.1
     - docker push vptech/nomad:0.9.2
     - docker push vptech/nomad:0.9.3
+    - docker push vptech/nomad:0.9.4
     - docker push vptech/nomad:latest
 # EOF

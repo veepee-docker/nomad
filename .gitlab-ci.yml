@@ -19,9 +19,9 @@
   stage: test
   image: docker:latest
   before_script:
-    - docker load -i image/v0.9.4.tar
-    - docker load -i image/v0.9.5.tar
-    - docker load -i image/v0.9.6.tar
+    - docker load -i image/v0.10.0.tar
+    - docker load -i image/v0.10.1.tar
+    - docker load -i image/v0.10.2.tar
   only:
     - master
   services:
@@ -35,9 +35,9 @@
   image: docker:latest
   before_script:
     - docker login -u "$REGISTRY_USERNAME" -p "$REGISTRY_PASSWORD"
-    - docker load -i image/v0.9.4.tar
-    - docker load -i image/v0.9.5.tar
-    - docker load -i image/v0.9.6.tar
+    - docker load -i image/v0.10.0.tar
+    - docker load -i image/v0.10.1.tar
+    - docker load -i image/v0.10.2.tar
   only:
     - master
   services:

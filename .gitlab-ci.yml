@@ -98,17 +98,17 @@ v0.10.2:test:
 
 # deploy
 # https://hub.docker.com/u/vpgrp/
-vpgrp:
-  extends: .deploy
-  script:
-    - docker tag nomad:0.10.0 vpgrp/nomad:0.10.0
-    - docker tag nomad:0.10.1 vpgrp/nomad:0.10.1
-    - docker tag nomad:0.10.2 vpgrp/nomad:0.10.2
-    - docker tag nomad:0.10.2 vpgrp/nomad:latest
-    - docker push vpgrp/nomad:0.10.0
-    - docker push vpgrp/nomad:0.10.1
-    - docker push vpgrp/nomad:0.10.2
-    - docker push vpgrp/nomad:latest
+# vpgrp:
+#   extends: .deploy
+#   script:
+#     - docker tag nomad:0.10.0 vpgrp/nomad:0.10.0
+#     - docker tag nomad:0.10.1 vpgrp/nomad:0.10.1
+#     - docker tag nomad:0.10.2 vpgrp/nomad:0.10.2
+#     - docker tag nomad:0.10.2 vpgrp/nomad:latest
+#     - docker push vpgrp/nomad:0.10.0
+#     - docker push vpgrp/nomad:0.10.1
+#     - docker push vpgrp/nomad:0.10.2
+#     - docker push vpgrp/nomad:latest
 
 # https://hub.docker.com/u/vptech/
 vptech:

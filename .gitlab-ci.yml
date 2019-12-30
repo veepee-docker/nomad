@@ -62,21 +62,21 @@ dockerlint:
 v0.10.0:build:
   extends: .build
   script:
-    - docker build --build-arg VERSION=0.10.0 --rm --tag nomad:0.10.0 .
+    - docker build --build-arg NOMAD_VERSION=0.10.0 --rm --tag nomad:0.10.0 .
     - mkdir image
     - docker save nomad:0.10.0 > image/v0.10.0.tar
 
 v0.10.1:build:
   extends: .build
   script:
-    - docker build --build-arg VERSION=0.10.1 --rm --tag nomad:0.10.1 .
+    - docker build --build-arg NOMAD_VERSION=0.10.1 --rm --tag nomad:0.10.1 .
     - mkdir image
     - docker save nomad:0.10.1 > image/v0.10.1.tar
 
 v0.10.2:build:
   extends: .build
   script:
-    - docker build --build-arg VERSION=0.10.2 --rm --tag nomad:0.10.2 .
+    - docker build --build-arg NOMAD_VERSION=0.10.2 --rm --tag nomad:0.10.2 .
     - mkdir image
     - docker save nomad:0.10.2 > image/v0.10.2.tar
 

@@ -14,9 +14,9 @@
 
 FROM vptech/debian:stretch
 
-ENV NOMAD_VERSION="0.8.7"
+ARG NOMAD_VERSION="0.10.2"
 
-ENV NOMAD_RELEASE="https://releases.hashicorp.com/nomad/$NOMAD_VERSION/nomad_${NOMAD_VERSION}_linux_amd64.zip"
+ENV NOMAD_RELEASE="https://mirror.vpgrp.io/releases.hashicorp.com/nomad/$NOMAD_VERSION/nomad_${NOMAD_VERSION}_linux_amd64.zip"
 
 RUN apt-get update  -qq && \
     apt-get upgrade -qq -y && \
@@ -33,6 +33,8 @@ RUN curl --location \
     chmod 755 /usr/local/bin/nomad && \
     ln -s /usr/local/bin/nomad /usr/bin/nomad && \
     rm -f /tmp/nomad.zip
+
+CMD [ "nomad", "--version" ]
 
 HEALTHCHECK NONE
 # EOF

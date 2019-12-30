@@ -59,67 +59,67 @@ dockerlint:
     - find . -type f -name "Dockerfile" | xargs -I {} dockerlint {}
 
 # build
-v0.9.4:build:
+v0.10.0:build:
   extends: .build
   script:
-    - docker build --rm --tag nomad:0.9.4 0.9.4
+    - docker build --build-arg VERSION=0.10.0 --rm --tag nomad:0.10.0 .
     - mkdir image
-    - docker save nomad:0.9.4 > image/v0.9.4.tar
+    - docker save nomad:0.10.0 > image/v0.10.0.tar
 
-v0.9.5:build:
+v0.10.1:build:
   extends: .build
   script:
-    - docker build --rm --tag nomad:0.9.5 0.9.5
+    - docker build --build-arg VERSION=0.10.1 --rm --tag nomad:0.10.1 .
     - mkdir image
-    - docker save nomad:0.9.5 > image/v0.9.5.tar
+    - docker save nomad:0.10.1 > image/v0.10.1.tar
 
-v0.9.6:build:
+v0.10.2:build:
   extends: .build
   script:
-    - docker build --rm --tag nomad:0.9.6 0.9.6
+    - docker build --build-arg VERSION=0.10.2 --rm --tag nomad:0.10.2 .
     - mkdir image
-    - docker save nomad:0.9.6 > image/v0.9.6.tar
+    - docker save nomad:0.10.2 > image/v0.10.2.tar
 
 # test
-v0.9.4:test:
+v0.10.0:test:
   extends: .test
   script:
-    - docker run nomad:0.9.4 nomad -version
+    - docker run nomad:0.10.0 nomad -version
 
-v0.9.5:test:
+v0.10.1:test:
   extends: .test
   script:
-    - docker run nomad:0.9.5 nomad -version
+    - docker run nomad:0.10.1 nomad -version
 
-v0.9.6:test:
+v0.10.2:test:
   extends: .test
   script:
-    - docker run nomad:0.9.6 nomad -version
+    - docker run nomad:0.10.2 nomad -version
 
 # deploy
 # https://hub.docker.com/u/vpgrp/
 vpgrp:
   extends: .deploy
   script:
-    - docker tag nomad:0.9.4 vpgrp/nomad:0.9.4
-    - docker tag nomad:0.9.5 vpgrp/nomad:0.9.5
-    - docker tag nomad:0.9.6 vpgrp/nomad:0.9.6
-    - docker tag nomad:0.9.6 vpgrp/nomad:latest
-    - docker push vpgrp/nomad:0.9.4
-    - docker push vpgrp/nomad:0.9.5
-    - docker push vpgrp/nomad:0.9.6
+    - docker tag nomad:0.10.0 vpgrp/nomad:0.10.0
+    - docker tag nomad:0.10.1 vpgrp/nomad:0.10.1
+    - docker tag nomad:0.10.2 vpgrp/nomad:0.10.2
+    - docker tag nomad:0.10.2 vpgrp/nomad:latest
+    - docker push vpgrp/nomad:0.10.0
+    - docker push vpgrp/nomad:0.10.1
+    - docker push vpgrp/nomad:0.10.2
     - docker push vpgrp/nomad:latest
 
 # https://hub.docker.com/u/vptech/
 vptech:
   extends: .deploy
   script:
-    - docker tag nomad:0.9.4 vptech/nomad:0.9.4
-    - docker tag nomad:0.9.5 vptech/nomad:0.9.5
-    - docker tag nomad:0.9.6 vptech/nomad:0.9.6
-    - docker tag nomad:0.9.6 vptech/nomad:latest
-    - docker push vptech/nomad:0.9.4
-    - docker push vptech/nomad:0.9.5
-    - docker push vptech/nomad:0.9.6
+    - docker tag nomad:0.10.0 vptech/nomad:0.10.0
+    - docker tag nomad:0.10.1 vptech/nomad:0.10.1
+    - docker tag nomad:0.10.2 vptech/nomad:0.10.2
+    - docker tag nomad:0.10.2 vptech/nomad:latest
+    - docker push vptech/nomad:0.10.0
+    - docker push vptech/nomad:0.10.1
+    - docker push vptech/nomad:0.10.2
     - docker push vptech/nomad:latest
 # EOF

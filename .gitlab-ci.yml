@@ -4,7 +4,7 @@
 # build template
 .build:
   stage: build
-  image: docker:latest
+  image: docker.registry.vptech.eu/docker:latest
   artifacts:
     expire_in: 1 day
     paths:
@@ -17,7 +17,7 @@
 # test template
 .test:
   stage: test
-  image: docker:latest
+  image: docker.registry.vptech.eu/docker:latest
   before_script:
     - docker load -i image/v0.10.0.tar
     - docker load -i image/v0.10.1.tar
@@ -32,7 +32,7 @@
 # deploy template
 .deploy:
   stage: deploy
-  image: docker:latest
+  image: docker.registry.vptech.eu/docker:latest
   before_script:
     - docker login -u "$REGISTRY_USERNAME" -p "$REGISTRY_PASSWORD"
     - docker load -i image/v0.10.0.tar
@@ -54,7 +54,7 @@ stages:
 # test
 dockerlint:
   stage: lint
-  image: vptech/linter:docker
+  image: docker.registry.vptech.eu/vptech/linter:docker
   script:
     - find . -type f -name "Dockerfile" | xargs -I {} dockerlint {}
 

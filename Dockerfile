@@ -12,11 +12,11 @@
 # OTHER  TORTIOUS ACTION,  ARISING OUT  OF  OR IN  CONNECTION WITH  THE USE  OR
 # PERFORMANCE OF THIS SOFTWARE.
 
-FROM vptech/debian:latest
+FROM docker.registry.vptech.eu/vptech/debian:latest
 
 ARG NOMAD_VERSION="0.10.2"
 
-ENV NOMAD_RELEASE="https://mirror.vpgrp.io/releases.hashicorp.com/nomad/$NOMAD_VERSION/nomad_${NOMAD_VERSION}_linux_amd64.zip"
+ENV NOMAD_RELEASE="https://releases.hashicorp.com/nomad/$NOMAD_VERSION/nomad_${NOMAD_VERSION}_linux_amd64.zip"
 
 RUN apt-get update  -qq && \
     apt-get upgrade -qq && \

@@ -1,3 +1,11 @@
+# 1.0.0 (2020-11-20)
+
+
+### Bug Fixes
+
+* iac compliance ([36340ce](https://git.vptech.eu/veepee/vptech/sre/iac/docker-images/nomad/commit/36340cedd3c12b25c4db933104ddcf7d092600e3))
+* **auto:** switch from dockerhub images to private registry ([47f7e73](https://git.vptech.eu/veepee/vptech/sre/iac/docker-images/nomad/commit/47f7e73837e6fe238618d727e819fc76abfe6e2e))
+
 # CHANGELOG
 
 ## 2019-04-15

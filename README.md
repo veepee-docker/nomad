@@ -1,15 +1,12 @@
-# docker-nomad
-
-[![License][license-img]][license-href]
-[![docker][docker-img]][docker-href]
+# nomad
 
 1. [Overview](#overview)
-2. [Description](#description)
-3. [Tags](#tags)
-4. [Usage](#usage)
-5. [Limitations](#limitations)
-6. [Development](#development)
-7. [Miscellaneous](#miscellaneous)
+1. [Description](#description)
+1. [Tags](#tags)
+1. [Usage](#usage)
+1. [Limitations](#limitations)
+1. [Development](#development)
+1. [Miscellaneous](#miscellaneous)
 
 ## Overview
 
@@ -17,7 +14,7 @@ Nomad is a  flexible container orchestration tool that  enables an organization
 to easily  deploy and manage  any containerized  or legacy application  using a
 single, unified workflow.
 
-[nomadproject.io][overview-href]
+[nomadproject.io](https://nomadproject.io/)
 
 ## Description
 
@@ -26,6 +23,11 @@ Docker images of Nomad.
 ## Tags
 
 Supported tags.
+
+- 0.12.9
+- 0.11.8
+
+Older versions are still available, without any update:
 
 - 0.8.7
 - 0.9.0
@@ -37,7 +39,7 @@ Supported tags.
 - 0.9.6
 - 0.10.0
 - 0.10.1
-- 0.10.2, latest
+- 0.10.2
 
 ## Usage
 
@@ -49,12 +51,11 @@ Currently no limitations.
 
 ## Development
 
-Please read carefully [CONTRIBUTING.md][contribute-href]  before making a merge
-request.
+Please read carefully CONTRIBUTING.md before making a merge request.
 
 ## Miscellaneous
 
-```
+```text
     ╚⊙ ⊙╝
   ╚═(███)═╝
  ╚═(███)═╝
@@ -63,10 +64,3 @@ request.
   ╚═(███)═╝
    ╚═(███)═╝
 ```
-
-[license-img]: https://img.shields.io/badge/license-ISC-blue.svg
-[license-href]: LICENSE
-[docker-img]: https://img.shields.io/docker/pulls/vptech/nomad.svg
-[docker-href]: https://hub.docker.com/r/vptech/nomad/
-[overview-href]: https://www.nomadproject.io/
-[contribute-href]: CONTRIBUTING.md

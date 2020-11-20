@@ -14,7 +14,7 @@
 
 FROM docker.registry.vptech.eu/vptech/debian:latest
 
-ARG NOMAD_VERSION="0.10.2"
+ARG NOMAD_VERSION="0.12.7"
 
 ENV NOMAD_RELEASE="https://releases.hashicorp.com/nomad/$NOMAD_VERSION/nomad_${NOMAD_VERSION}_linux_amd64.zip"
 

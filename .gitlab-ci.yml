@@ -1,125 +1,63 @@
 ---
-# https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
 
-# build template
-.build:
-  stage: build
-  image: docker.registry.vptech.eu/docker:latest
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - image
-  services:
-    - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay
+include:
+  - project: veepee/vptech/sre/iac/ci-cd/docker-build
+    ref: 4.3.3
+    file: gitlab-ci-build.yml
+  - project: veepee/vptech/sre/iac/ci-cd/docker-lint
+    ref: 2.0.2
+    file: gitlab-ci.yml
+  - project: veepee/vptech/sre/iac/ci-cd/markdown-lint
+    ref: 1.2.2
+    file: gitlab-ci.yml
+  - project: veepee/vptech/sre/iac/ci-cd/semantic-release
+    ref: 3.2.1
+    file: gitlab-ci.yml
 
-# test template
-.test:
-  stage: test
-  image: docker.registry.vptech.eu/docker:latest
-  before_script:
-    - docker load -i image/v0.10.0.tar
-    - docker load -i image/v0.10.1.tar
-    - docker load -i image/v0.10.2.tar
-  only:
-    - master
-  services:
-    - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay
-
-# deploy template
-.deploy:
-  stage: deploy
-  image: docker.registry.vptech.eu/docker:latest
-  before_script:
-    - docker login -u "$REGISTRY_USERNAME" -p "$REGISTRY_PASSWORD"
-    - docker load -i image/v0.10.0.tar
-    - docker load -i image/v0.10.1.tar
-    - docker load -i image/v0.10.2.tar
-  only:
-    - master
-  services:
-    - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay
+variables:
+  APP_NAME: nomad
+  SEMANTIC_CONFIG_FILE: changelog
+  DOCKER_PUBLIC_REGISTRY_URL: docker.io
+  DOCKER_PUBLIC_REGISTRY_USERNAME: ${PUBLIC_REGISTRY_USERNAME}
+  DOCKER_PUBLIC_REGISTRY_PASSWORD: ${PUBLIC_REGISTRY_PASSWORD}
+  DOCKER_PUBLIC_REPO: vptech
+  PUBLIC: 'true'
 
 stages:
   - lint
   - build
   - test
-  - deploy
+  - publish
+  - release
 
-# test
-dockerlint:
-  stage: lint
-  image: docker.registry.vptech.eu/vptech/linter:docker
-  script:
-    - find . -type f -name "Dockerfile" | xargs -I {} dockerlint {}
+publish-feature:docker:
+  variables:
+    DOCKER_BUILD_ARGS: --build-arg NOMAD_VERSION=${VERSION}
+    TAG: "${CI_COMMIT_REF_SLUG}-${VERSION}"
+  parallel:
+    matrix:
+      - NAME: [ 'VERSION' ]
+        VERSION: [ '0.11.8', '0.12.9' ]
 
-# build
-v0.10.0:build:
-  extends: .build
-  script:
-    - docker build --build-arg NOMAD_VERSION=0.10.0 --rm --tag nomad:0.10.0 .
-    - mkdir image
-    - docker save nomad:0.10.0 > image/v0.10.0.tar
+delete-feature:docker:
+  variables:
+    TAG: '${CI_COMMIT_REF_SLUG}-0.11.8 ${CI_COMMIT_REF_SLUG}-0.12.9'
 
-v0.10.1:build:
-  extends: .build
-  script:
-    - docker build --build-arg NOMAD_VERSION=0.10.1 --rm --tag nomad:0.10.1 .
-    - mkdir image
-    - docker save nomad:0.10.1 > image/v0.10.1.tar
+publish-release:docker:
+  variables:
+    DOCKER_BUILD_ARGS: --build-arg NOMAD_VERSION=${VERSION}
+    TAG: "${VERSION}"
+  parallel:
+    matrix:
+      - NAME: [ 'VERSION' ]
+        VERSION: [ '0.11.8', '0.12.9' ]
 
-v0.10.2:build:
-  extends: .build
-  script:
-    - docker build --build-arg NOMAD_VERSION=0.10.2 --rm --tag nomad:0.10.2 .
-    - mkdir image
-    - docker save nomad:0.10.2 > image/v0.10.2.tar
-
-# test
-v0.10.0:test:
-  extends: .test
-  script:
-    - docker run nomad:0.10.0 nomad -version
-
-v0.10.1:test:
-  extends: .test
-  script:
-    - docker run nomad:0.10.1 nomad -version
-
-v0.10.2:test:
-  extends: .test
-  script:
-    - docker run nomad:0.10.2 nomad -version
-
-# deploy
-# https://hub.docker.com/u/vpgrp/
-# vpgrp:
-#   extends: .deploy
-#   script:
-#     - docker tag nomad:0.10.0 vpgrp/nomad:0.10.0
-#     - docker tag nomad:0.10.1 vpgrp/nomad:0.10.1
-#     - docker tag nomad:0.10.2 vpgrp/nomad:0.10.2
-#     - docker tag nomad:0.10.2 vpgrp/nomad:latest
-#     - docker push vpgrp/nomad:0.10.0
-#     - docker push vpgrp/nomad:0.10.1
-#     - docker push vpgrp/nomad:0.10.2
-#     - docker push vpgrp/nomad:latest
-
-# https://hub.docker.com/u/vptech/
-vptech:
-  extends: .deploy
-  script:
-    - docker tag nomad:0.10.0 vptech/nomad:0.10.0
-    - docker tag nomad:0.10.1 vptech/nomad:0.10.1
-    - docker tag nomad:0.10.2 vptech/nomad:0.10.2
-    - docker tag nomad:0.10.2 vptech/nomad:latest
-    - docker push vptech/nomad:0.10.0
-    - docker push vptech/nomad:0.10.1
-    - docker push vptech/nomad:0.10.2
-    - docker push vptech/nomad:latest
-# EOF
+publish-public-release:docker:
+  variables:
+    DOCKER_BUILD_ARGS: --build-arg NOMAD_VERSION=${VERSION}
+    TAG: "${VERSION}"
+  parallel:
+    matrix:
+      - NAME: [ 'VERSION' ]
+        VERSION: [ '0.11.8', '0.12.9' ]
+...
